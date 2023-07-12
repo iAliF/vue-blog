@@ -36,6 +36,12 @@ const routes = [
     path: '/article/:slug',
     name: 'article',
     component: () => import('../views/ArticleView.vue'),
+  },
+  {
+    path: '/add/',
+    name: 'add',
+    component: () => import('../views/AddArticleView.vue'),
+    meta: {loginRequired: true}
   }
 ]
 

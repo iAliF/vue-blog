@@ -14,6 +14,9 @@
             <li class="nav-item" v-if="$store.state.isAuthenticated">
               <router-link :to="{'name': 'profile'}" class="nav-link">Profile</router-link>
             </li>
+            <li class="nav-item" v-if="$store.state.isAuthenticated">
+              <router-link :to="{'name': 'add'}" class="nav-link">Write an article</router-link>
+            </li>
             <li class="nav-item" v-if="!$store.state.isAuthenticated">
               <router-link :to="{'name': 'login'}" class="nav-link">Login</router-link>
             </li>
