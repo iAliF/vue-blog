@@ -1,7 +1,7 @@
 <template>
   <div class="ArticleForm">
     <div class="row">
-      <div class="col-md-8 col-sm-10 mx-auto border shadow rounded-4 p-4 mt-3">
+      <div class="col-md-8 col-sm-10 border shadow rounded-4 p-4 mt-3" :class="{'mx-auto': centered}">
         <h1 class="mt-3 mt-4 fw-bold text-center">{{ formTitle }}</h1>
         <hr/>
         <form @submit.prevent="doSend">
@@ -39,14 +39,20 @@
 export default {
   name: 'ArticleForm',
   data() {
+    let hasArticle = this.article !== undefined && typeof this.article === 'object';
     return {
-      title: '',
-      description: '',
-      content: '',
+      title: hasArticle ? this.article.title : '',
+      description: hasArticle ? this.article.description : '',
+      content: hasArticle ? this.article.content : '',
     }
   },
   props: {
-    formTitle: String
+    formTitle: String,
+    article: Object,
+    centered: {
+      type: Boolean,
+      default: false
+    }
   },
   emits: ["submit"],
   methods: {
