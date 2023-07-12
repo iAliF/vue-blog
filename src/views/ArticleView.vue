@@ -14,7 +14,7 @@
       <Transition name="fade">
         <div v-if="editing">
           <hr class="my-3"/>
-          <ArticleForm form-title="Edit Article" :article="article"/>
+          <ArticleForm form-title="Edit Article" :article="article" @submit="doEdit"/>
         </div>
       </Transition>
     </div>
@@ -29,10 +29,28 @@ export default {
   components: {ArticleForm},
   data() {
     let articles = JSON.parse(localStorage.getItem("articles") ?? "[]")
-    let article = articles.find(x => x.slug === this.$route.params.slug)
+    let index = articles.findIndex(x => x.slug === this.$route.params.slug)
+    let article = articles[index]
     return {
       article: article,
+      articles: articles,
+      index: index,
       editing: false
+    }
+  },
+  methods: {
+    doEdit(title, description, content) {
+      this.articles[this.index] = {
+        title: title,
+        slug: title.replaceAll(" ", "-").toLowerCase(),
+        description: description,
+        content: content
+      }
+
+      this.article = this.articles[this.index]
+      this.editing = false
+      localStorage.setItem("articles", JSON.stringify(this.articles))
+      this.$router.push({name: "article", params: {slug: this.articles[this.index].slug}})
     }
   }
 }
