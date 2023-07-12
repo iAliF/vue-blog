@@ -4,13 +4,22 @@
 </template>
 
 <script>
-  import Navbar from "@/components/Navbar.vue";
-  export default {
-    name: 'Home',
-    components: {
-      Navbar
+import Navbar from "@/components/Navbar.vue";
+
+export default {
+  name: 'Home',
+  components: {
+    Navbar
+  },
+  watch: {
+    $route() {
+      this.$store.commit("onStart")
     }
+  },
+  mounted() {
+    this.$store.commit("onStart")
   }
+}
 </script>
 
 <style>
