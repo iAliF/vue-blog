@@ -10,7 +10,9 @@
           class="btn btn-outline-secondary px-4"
           @click="editing = !editing">Edit
       </button>
-      <button class="btn btn-outline-danger px-4 mx-3">Delete</button>
+
+      <button class="btn btn-outline-danger px-4 mx-3" @click="doRemove">Delete</button>
+
       <Transition name="fade">
         <div v-if="editing">
           <hr class="my-3"/>
@@ -49,8 +51,16 @@ export default {
 
       this.article = this.articles[this.index]
       this.editing = false
-      localStorage.setItem("articles", JSON.stringify(this.articles))
+      this.saveData()
       this.$router.push({name: "article", params: {slug: this.articles[this.index].slug}})
+    },
+    doRemove() {
+      this.articles.splice(this.index, 1)
+      this.saveData()
+      this.$router.push({name: "home"})
+    },
+    saveData() {
+      localStorage.setItem("articles", JSON.stringify(this.articles))
     }
   }
 }
