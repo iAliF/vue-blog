@@ -11,7 +11,7 @@ export default {
   methods: {
     doLogin() {
       this.$store.commit("login", "abc123")
-      this.$router.push({name: "logout"})
+      this.$router.push({name: "profile"})
     }
   }
 }
