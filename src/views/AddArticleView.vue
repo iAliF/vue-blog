@@ -1,6 +1,6 @@
 <template>
   <div class="AddArticle">
-    <ArticleForm @submit="doAdd" form-title="Add New Article"/>
+    <ArticleForm @submit="doAdd" form-title="Add New Article" centered/>
   </div>
 </template>
 
