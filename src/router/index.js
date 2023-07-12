@@ -31,6 +31,11 @@ const routes = [
     name: 'logout',
     component: () => import('../views/LogoutView.vue'),
     meta: {loginRequired: true}
+  },
+  {
+    path: '/article/:slug',
+    name: 'article',
+    component: () => import('../views/ArticleView.vue'),
   }
 ]
 

@@ -4,7 +4,7 @@
     <article v-for="article in articles">
       <h3 class="fw-bold">{{ article.title }}</h3>
       <div>{{ article.description }}</div>
-      <a :href="`article/${article.slug}`">More ...</a>
+      <router-link :to="{name: 'article', params: {'slug': article.slug}}">More ...</router-link>
       <hr/>
     </article>
   </div>
