@@ -1,20 +1,35 @@
 <template>
   <div class="Login">
-    <div class="row justify-content-center">
-      <div class="col-md-6 col-sm-10">
-        <h1>Login Page</h1>
-        <form>
+    <div class="row">
+      <div class="col-md-6 col-lg-4 col-sm-10 mx-auto border shadow rounded-4 p-4 mt-3">
+        <h1 class="mt-3 mt-4 fw-bold">Login</h1>
+        <hr/>
+        <form @submit.prevent="doLogin">
           <div class="input-group mb-3">
             <span class="input-group-text" id="user-addon">@</span>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                   aria-describedby="user-addon">
+            <input
+                type="text"
+                class="form-control"
+                :class="{'is-invalid': usernameErr === true}"
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="user-addon"
+                v-model="username">
+            <div class="invalid-feedback" v-if="usernameErr">{{ usernameErrMsg }}</div>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="passwd-addon">*</span>
-            <input type="password" class="form-control" placeholder="Password" aria-label="Password"
-                   aria-describedby="passwd-addon">
+            <input type="password"
+                   class="form-control"
+                   :class="{'is-invalid': passwordErr === true}"
+                   placeholder="Password"
+                   aria-label="Password"
+                   aria-describedby="passwd-addon"
+                   v-model="password">
+            <div class="invalid-feedback" v-if="passwordErr">{{ passwordErrMsg }}</div>
           </div>
-          <button class="btn btn-primary" @click="doLogin">Login</button>
+          <hr/>
+          <button class="btn btn-primary" type="submit">Login</button>
         </form>
       </div>
     </div>
@@ -24,10 +39,38 @@
 <script>
 export default {
   name: "Login",
+  data() {
+    return {
+      username: "",
+      password: "",
+      usernameErr: false,
+      usernameErrMsg: null,
+      passwordErr: false,
+      passwordErrMsg: null,
+    }
+  },
   methods: {
     doLogin() {
-      this.$store.commit("login", "abc123")
-      this.$router.push({name: "profile"})
+      if (this.username.length < 5) {
+        this.usernameErr = true
+        this.usernameErrMsg = this.username.length === 0 ? "Username cannot be empty" : "Username must be at least 5 characters"
+      } else {
+        this.usernameErr = false
+        this.usernameErrMsg = ''
+      }
+
+      if (this.password.length < 8) {
+        this.passwordErr = true
+        this.passwordErrMsg = this.username.length === 0 ? "Password cannot be empty" : "Password must be at least 8 characters"
+      } else {
+        this.passwordErr = false
+        this.passwordErrMsg = ''
+      }
+
+      if (!this.usernameErr && !this.passwordErr) {
+        this.$store.commit("login", `${this.username}:${this.password}`)
+        this.$router.push("/profile")
+      }
     }
   }
 }
