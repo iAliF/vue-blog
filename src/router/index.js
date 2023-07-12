@@ -26,6 +26,12 @@ const routes = [
     meta: {loginRedirect: true}
   },
   {
+    path: '/register',
+    name: 'register',
+    component: () => import('../views/RegisterView.vue'),
+    meta: {loginRedirect: true}
+  },
+  {
     path: '/logout',
     name: 'logout',
     component: () => import('../views/LogoutView.vue'),
