@@ -7,6 +7,7 @@
       <router-link :to="{name: 'article', params: {'slug': article.slug}}">More ...</router-link>
       <hr/>
     </article>
+    <h2 v-if="!articles.length" class="text-center">There is no Article ...</h2>
   </div>
 </template>
 
