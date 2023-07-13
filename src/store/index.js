@@ -26,7 +26,7 @@ export default createStore({
             let token = localStorage.getItem("token");
 
             if (token) {
-                axios.defaults.headers.common['Authorization'] = token
+                axios.defaults.headers.common['Authorization'] = `Token ${token}`
                 axios
                     .get("auth/users/me/")
                     .then(_ => {
