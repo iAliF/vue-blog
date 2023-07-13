@@ -82,7 +82,7 @@ export default {
             .then(response => {
               let token = response.data["auth_token"]
               this.$store.commit("login", token)
-              this.$router.push("/profile")
+              this.$router.push({name: "profile"})
             })
             .catch(error => {
               let msg = error.response.data["non_field_errors"].join(", ");
