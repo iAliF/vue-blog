@@ -37,6 +37,9 @@
 </template>
 
 <script>
+
+import axios from "axios";
+
 export default {
   name: "Login",
   data() {
@@ -51,9 +54,9 @@ export default {
   },
   methods: {
     doLogin() {
-      if (this.username.length < 5) {
+      if (this.username.length < 3) {
         this.usernameErr = true
-        this.usernameErrMsg = this.username.length === 0 ? "Username cannot be empty" : "Username must be at least 5 characters"
+        this.usernameErrMsg = this.username.length === 0 ? "Username cannot be empty" : "Username must be at least 3 characters"
       } else {
         this.usernameErr = false
         this.usernameErrMsg = ''
@@ -68,8 +71,25 @@ export default {
       }
 
       if (!this.usernameErr && !this.passwordErr) {
-        this.$store.commit("login", `${this.username}:${this.password}`)
-        this.$router.push("/profile")
+        axios
+            .post(
+                "auth/token/login/",
+                {
+                  username: this.username,
+                  password: this.password
+                }
+            )
+            .then(response => {
+              let token = response.data["auth_token"]
+              this.$store.commit("login", token)
+              this.$router.push("/profile")
+            })
+            .catch(error => {
+              let msg = error.response.data["non_field_errors"].join(", ");
+              console.log(msg)
+              this.usernameErr = this.passwordErr = true;
+              this.passwordErrMsg = msg;
+            })
       }
     }
   }
