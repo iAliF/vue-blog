@@ -8,30 +8,11 @@ export default createStore({
     },
     getters: {},
     mutations: {
-        onStart(state) {
-            let token = localStorage.getItem("token");
-            if (token) {
-                state.isAuthenticated = true
-                state.token = token
-                axios.defaults.headers.common['Authorization'] = `Token ${token}`
-            } else {
-                state.isAuthenticated = false
-                state.token = ''
-                axios.defaults.headers.common['Authorization'] = ""
-            }
-        },
         login(state, token) {
-            if (token) {
-                state.isAuthenticated = true
-                state.token = token
-                localStorage.setItem("token", token)
-                axios.defaults.headers.common['Authorization'] = `Token ${token}`
-            } else {
-                state.isAuthenticated = false
-                state.token = ''
-                localStorage.removeItem("token")
-                axios.defaults.headers.common['Authorization'] = ""
-            }
+            state.isAuthenticated = true
+            state.token = token
+            axios.defaults.headers.common['Authorization'] = `Token ${token}`
+            localStorage.setItem("token", token)
         },
         logout(state) {
             state.isAuthenticated = false
@@ -40,6 +21,25 @@ export default createStore({
             axios.defaults.headers.common['Authorization'] = ""
         }
     },
-    actions: {},
+    actions: {
+        onStart(context) {
+            let token = localStorage.getItem("token");
+
+            if (token) {
+                axios.defaults.headers.common['Authorization'] = token
+                axios
+                    .get("auth/users/me/")
+                    .then(_ => {
+                        context.commit("login", token)
+                    })
+                    .catch(error => {
+                        console.log(error.response.data.detail)
+                        context.commit("logout")
+                    })
+            } else {
+                context.commit("logout")
+            }
+        },
+    },
     modules: {}
 })
