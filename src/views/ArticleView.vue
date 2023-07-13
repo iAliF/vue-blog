@@ -7,7 +7,7 @@
   <div v-else>
     <div v-if="!notFound">
       <article>
-        <h3 class="fw-bold">{{ article.title }}</h3>
+        <h1 class="fw-bold">{{ article.title }}</h1>
         <div>{{ article.content }}</div>
       </article>
       <div v-if="$store.state.isAuthenticated">
