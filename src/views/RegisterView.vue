@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Login",
   data() {
@@ -65,9 +67,9 @@ export default {
   },
   methods: {
     doRegister() {
-      if (this.username.length < 5) {
+      if (this.username.length < 3) {
         this.usernameErr = true
-        this.usernameErrMsg = this.username.length === 0 ? "Username cannot be empty" : "Username must be at least 5 characters"
+        this.usernameErrMsg = this.username.length === 0 ? "Username cannot be empty" : "Username must be at least 3 characters"
       } else {
         this.usernameErr = false
         this.usernameErrMsg = ''
@@ -90,8 +92,32 @@ export default {
       }
 
       if (!this.usernameErr && !this.passwordErr && !this.rPasswordErr) {
-        this.$store.commit("login", `${this.username}:${this.password}`)
-        this.$router.push("/profile")
+        axios
+            .post(
+                "auth/users/",
+                {
+                  username: this.username,
+                  password: this.password
+                }
+            )
+            .then(_ => {
+              this.$router.push({name: "login"})
+            })
+            .catch(error => {
+              console.log(error.response.data)
+              if (error.response.data["non_field_errors"]) {
+                this.passwordErrMsg = error.response.data["non_field_errors"].join(" & ");
+              } else if (error.response.data["username"]) {
+                this.usernameErr = true
+                this.usernameErrMsg = error.response.data["username"].join(" & ")
+              } else if (error.response.data["password"]) {
+                this.passwordErr = true
+                this.passwordErrMsg = error.response.data["password"].join(" & ")
+              } else {
+                this.passwordErr = true
+                this.passwordErrMsg = "Something got wrong"
+              }
+            })
       }
     }
   }
