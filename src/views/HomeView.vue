@@ -7,20 +7,35 @@
       <router-link :to="{name: 'article', params: {'slug': article.slug}}">More ...</router-link>
       <hr/>
     </article>
-    <h2 v-if="!articles.length" class="text-center">There is no Article ...</h2>
+    <h2 v-if="!articles.length && !error" class="text-center">There is no Article ...</h2>
+    <h2 v-if="error" class="text-center">Cannot load articles ...</h2>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 
+import axios from "axios";
+
 export default {
   name: 'HomeView',
   data() {
-    let articles = JSON.parse(localStorage.getItem("articles") ?? "[]")
     return {
-      articles: articles
+      articles: [],
+      error: false,
     }
+  },
+  mounted() {
+    axios
+        .get("article/",)
+        .then(response => {
+          this.articles = response.data
+          this.error = false
+        })
+        .catch(_ => {
+          this.articles = []
+          this.error = true
+        })
   }
 }
 </script>
