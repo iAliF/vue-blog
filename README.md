@@ -1,4 +1,5 @@
-# front
+# Blog
+Simple Blog using VueJS & Bootstrap
 
 ## Project setup
 ```
