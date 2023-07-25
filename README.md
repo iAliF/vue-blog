@@ -1,8 +1,6 @@
 # Blog
 
 Simple Blog using VueJS & Bootstrap
-Step By Step [This Course](https://www.youtube.com/playlist?list=PLAt10Vana3Ydgtrl2m39RqvQoF4jNRell)
-Added some features and did some Optimization
 
 Step By Step [This Course](https://www.youtube.com/playlist?list=PLAt10Vana3Ydgtrl2m39RqvQoF4jNRell)
 
