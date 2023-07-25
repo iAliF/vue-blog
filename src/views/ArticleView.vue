@@ -14,7 +14,7 @@
         <hr/>
         <button
             class="btn btn-outline-secondary px-4"
-            @click="editing = !editing">Edit
+            @click="toggleEdit">Edit
         </button>
 
         <button class="btn btn-outline-danger px-4 mx-3" @click="doRemove">Delete</button>
@@ -46,7 +46,7 @@ export default {
     return {
       article: {},
       editing: false,
-      editingError: true,
+      editingError: false,
       notFound: true,
       loading: true,
     }
@@ -86,6 +86,12 @@ export default {
             this.editingError = true
           })
     },
+    toggleEdit() {
+      this.editing = !this.editing
+      if (this.editing === false)
+        this.editingError = false
+    },
+
     // doRemove() {
     //   this.articles.splice(this.index, 1)
     //   this.saveData()
