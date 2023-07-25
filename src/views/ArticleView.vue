@@ -22,6 +22,7 @@
         <Transition name="fade">
           <div v-if="editing">
             <hr class="my-3"/>
+            <div class="alert alert-danger" v-if="editingError">Something went wrong</div>
             <ArticleForm form-title="Edit Article" :article="article" @submit="doEdit"/>
           </div>
         </Transition>
@@ -45,6 +46,7 @@ export default {
     return {
       article: {},
       editing: false,
+      editingError: true,
       notFound: true,
       loading: true,
     }
@@ -63,19 +65,27 @@ export default {
     this.loading = false
   },
   methods: {
-    // doEdit(title, description, content) {
-    //   this.articles[this.index] = {
-    //     title: title,
-    //     slug: title.replaceAll(" ", "-").toLowerCase(),
-    //     description: description,
-    //     content: content
-    //   }
-    //
-    //   this.article = this.articles[this.index]
-    //   this.editing = false
-    //   this.saveData()
-    //   this.$router.push({name: "article", params: {slug: this.articles[this.index].slug}})
-    // },
+    doEdit(title, description, content) {
+      let obj = {
+        title: title,
+        slug: title.replaceAll(" ", "-").toLowerCase(),
+        description: description,
+        content: content
+      }
+
+      axios
+          .put(`article/${this.article.slug}/`, obj)
+          .then(_ => {
+            this.article = obj
+            this.editing = false
+            this.editingError = false
+            this.$router.push({name: "article", params: {"slug": obj.slug}})
+          })
+          .catch(err => {
+            console.log(err)
+            this.editingError = true
+          })
+    },
     // doRemove() {
     //   this.articles.splice(this.index, 1)
     //   this.saveData()
