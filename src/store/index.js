@@ -33,7 +33,8 @@ export default createStore({
                         context.commit("login", token)
                     })
                     .catch(error => {
-                        console.log(error.response.data.detail)
+                        if (error.response !== undefined)
+                            console.log(error.response.data.detail)
                         context.commit("logout")
                     })
             } else {
