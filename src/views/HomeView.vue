@@ -1,12 +1,21 @@
 <template>
   <div class="home">
-    <h1 class="text-center mb-5">Home Page</h1>
+    <h1 class="text-center m3-5">Home Page</h1>
+
+    <form class="d-flex mb-3" role="search" @submit.prevent="search">
+      <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="searchQuery">
+      <button class="btn btn-outline-light btn-primary" type="submit">Search</button>
+    </form>
+
+    <hr/>
+
     <article v-for="article in articles">
       <h3 class="fw-bold">{{ article.title }}</h3>
       <div>{{ article.description }}</div>
       <router-link :to="{name: 'article', params: {'slug': article.slug}}">More ...</router-link>
       <hr/>
     </article>
+
     <h2 v-if="!articles.length && !error" class="text-center">There is no Article ...</h2>
     <h2 v-if="error" class="text-center">Cannot load articles ...</h2>
   </div>
@@ -23,6 +32,7 @@ export default {
     return {
       articles: [],
       error: false,
+      searchQuery: ""
     }
   },
   methods: {
@@ -39,6 +49,11 @@ export default {
             this.articles = []
             this.error = true
           })
+    },
+    search() {
+      this.getArticles(
+          (!this.searchQuery || this.searchQuery.length === 0) ? null : this.searchQuery
+      )
     }
   },
   mounted() {
