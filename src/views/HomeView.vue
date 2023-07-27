@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <h1 class="text-center m3-5">Home Page</h1>
+    <h1 class="text-center">Home Page</h1>
 
-    <form class="d-flex mb-3" role="search" @submit.prevent="search">
+    <form class="d-flex mb-3 mt-4" role="search" @submit.prevent="search">
       <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="searchQuery">
-      <button class="btn btn-outline-light btn-primary" type="submit">Search</button>
+      <button class="btn btn-outline-light btn-primary ms-3" type="submit">Search</button>
     </form>
 
     <hr/>
