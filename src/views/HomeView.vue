@@ -25,17 +25,24 @@ export default {
       error: false,
     }
   },
+  methods: {
+    getArticles(query = null) {
+      let q = query !== null ? `article/?search=${query}` : "article/"
+
+      axios
+          .get(q)
+          .then(response => {
+            this.articles = response.data
+            this.error = false
+          })
+          .catch(_ => {
+            this.articles = []
+            this.error = true
+          })
+    }
+  },
   mounted() {
-    axios
-        .get("article/",)
-        .then(response => {
-          this.articles = response.data
-          this.error = false
-        })
-        .catch(_ => {
-          this.articles = []
-          this.error = true
-        })
+    this.getArticles();
   }
 }
 </script>
