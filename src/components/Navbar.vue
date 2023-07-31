@@ -12,12 +12,6 @@
             <li class="nav-item">
               <router-link to="/" class="nav-link">Home</router-link>
             </li>
-            <li class="nav-item" v-if="$store.state.isAuthenticated">
-              <router-link :to="{'name': 'profile'}" class="nav-link">Profile</router-link>
-            </li>
-            <li class="nav-item" v-if="$store.state.isAuthenticated">
-              <router-link :to="{'name': 'add'}" class="nav-link">Write an article</router-link>
-            </li>
             <li class="nav-item" v-if="!$store.state.isAuthenticated">
               <router-link :to="{'name': 'login'}" class="nav-link">Login</router-link>
             </li>
@@ -32,6 +26,12 @@
               Hello {{ $store.state.user.username }}
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li>
+                <router-link :to="{'name': 'profile'}" class="dropdown-item">Profile</router-link>
+              </li>
+              <li>
+                <router-link :to="{'name': 'add'}" class="dropdown-item">Write an article</router-link>
+              </li>
               <li>
                 <router-link :to="{'name': 'logout'}" class="dropdown-item">Logout</router-link>
               </li>
@@ -62,4 +62,9 @@ nav a {
 .navbar-collapse a.router-link-exact-active {
   color: #0099ff !important;
 }
+
+.dropdown-menu a.router-link-exact-active {
+  color: #000000 !important;
+}
+
 </style>
