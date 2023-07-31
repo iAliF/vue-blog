@@ -26,7 +26,7 @@
             </li>
           </ul>
 
-          <div class="dropdown me-5" v-if="$store.state.isAuthenticated">
+          <div class="dropstart me-5" v-if="$store.state.isAuthenticated">
             <button class="btn btn-outline-primary dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
               Hello {{ $store.state.user.username }}
