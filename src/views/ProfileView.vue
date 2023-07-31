@@ -5,14 +5,14 @@
 
       <hr/>
 
-      <ul class="nav nav-pills nav-fill">
+      <ul class="nav nav-pills nav-fill mb-4">
         <li class="nav-item">
           <a
               class="nav-link"
               :class="{'active': infoActive}"
               href="#"
               @click="infoActive = true"
-          >User Info</a>
+          >Email</a>
         </li>
 
         <li class="nav-item">
@@ -25,12 +25,23 @@
         </li>
       </ul>
 
-      <Transition name="slide-fade">
+      <Transition name="fade">
         <div v-if="infoActive">
-          Change User Info
+          <form @submit.prevent="updateEmail">
+            <div class="form-group mb-4">
+              <input
+                  type="email"
+                  class="form-control p-2"
+                  placeholder="Email"
+                  aria-label="Email"
+                  v-model="email">
+            </div>
+
+            <button class="btn btn-primary col-12 p-2 fw-bold" type="submit">Update</button>
+          </form>
         </div>
       </Transition>
-      <Transition name="slide-fade">
+      <Transition name="fade">
         <div v-if="!infoActive">
           Change Password
         </div>
@@ -49,6 +60,7 @@ export default {
     return {
       username: '',
       infoActive: true,
+      email: '',
     }
   },
   mounted() {
@@ -56,28 +68,43 @@ export default {
         .get("auth/users/me/",)
         .then(response => {
           this.username = response.data.username
+          this.email = response.data.email
         })
         .catch(error => {
           console.log(error.response.data.detail)
           this.$store.commit("logout")
           this.$router.push({name: "login"})
         })
+  },
+  methods: {
+    updateEmail() {
+      if (!this.email || this.email.length === 0)
+        return;
+
+      axios
+          .put(
+              "auth/users/me/",
+              {email: this.email}
+          )
+          .then(response => {
+            this.email = response.data.email
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    }
   }
 }
 </script>
 
 <style>
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
 }
 
-.slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateX(20px);
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>
