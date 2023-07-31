@@ -26,12 +26,12 @@
             </li>
           </ul>
 
-          <div class="dropstart me-5" v-if="$store.state.isAuthenticated">
+          <div class="dropdown me-5" v-if="$store.state.isAuthenticated">
             <button class="btn btn-outline-primary dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
               Hello {{ $store.state.user.username }}
             </button>
-            <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
                 <router-link :to="{'name': 'logout'}" class="dropdown-item">Logout</router-link>
               </li>
