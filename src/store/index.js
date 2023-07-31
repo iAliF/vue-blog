@@ -4,7 +4,8 @@ import axios from "axios";
 export default createStore({
     state: {
         isAuthenticated: false,
-        token: null
+        token: null,
+        user: {}
     },
     getters: {},
     mutations: {
@@ -29,8 +30,9 @@ export default createStore({
                 axios.defaults.headers.common['Authorization'] = `Token ${token}`
                 axios
                     .get("auth/users/me/")
-                    .then(_ => {
+                    .then(resp => {
                         context.commit("login", token)
+                        this.state.user = resp.data
                     })
                     .catch(error => {
                         if (error.response !== undefined)
